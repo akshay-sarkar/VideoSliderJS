@@ -7,9 +7,14 @@ video {
   width: 100%    !important;
   height: auto   !important;
 }
-img{
-    width: 1280px;
-    height: 720px;
+.screenSize, img{
+    height: 540px;
+    max-width: 960px;
+    width: 100%;
+}
+.videoSlider {
+    overflow: hidden;
+    position: relative;
 }
 .arrow{
     background: url("../res/images/leftArrow.png") top left/ contain no-repeat;
@@ -26,17 +31,10 @@ img{
     top: 40%;
     right: 0px;
 }
-.videoSlider {
-    overflow: hidden;
-    position: relative;
-    height: 540px;
-    max-width: 960px;
-    width: 100%;
-}
 ul {
     list-style-type: none;
     position: absolute;
-	overflow: hidden; 
+    overflow: hidden; 
 }
 ul li { float:left; }
 .animateSlideIn {
