@@ -14,4 +14,4 @@ s.init({
     animateTime : 1000,           // Set the Animation tranisition speed (set in css as well)
     autoPlaySlide: true           // false will make VideoSlider only on button click
 });
-```sh
+```
