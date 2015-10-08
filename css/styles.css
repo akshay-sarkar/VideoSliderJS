@@ -1,0 +1,63 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+video {
+  width: 100%    !important;
+  height: auto   !important;
+}
+img{
+    width: 1280px;
+    height: 720px;
+}
+.arrow{
+    background: url("../res/images/leftArrow.png") top left/ contain no-repeat;
+    position: absolute;
+    height: 110px;
+    width: 70px;
+}
+.prevIcon{
+    top: 40%;
+    left: 0px;
+    transform: rotate(180deg);/* Using one image with rotation for arrows */
+}
+.nextIcon{
+    top: 40%;
+    right: 0px;
+}
+.videoSlider {
+    overflow: hidden;
+    position: relative;
+    height: 540px;
+    max-width: 960px;
+    width: 100%;
+}
+ul {
+    list-style-type: none;
+    position: absolute;
+	overflow: hidden; 
+}
+ul li { float:left; }
+.animateSlideIn {
+    -webkit-animation-duration: 1.2s;
+    -webkit-animation-name: slideInLeft;
+    -webkit-animation-timing-function: cubic-bezier(0.45,0.55,0.55,1);
+    -webkit-animation-fill-mode: forwards;
+}
+@-webkit-keyframes slideInLeft {
+    0% {} 100% {
+        -webkit-transform: translate3d(-100%, 0, 0);
+    }
+}
+.animateSlideInRight {
+    -webkit-animation-duration: 1s;
+    -webkit-animation-name: slideInRight;
+    -webkit-animation-timing-function: cubic-bezier(0.45,0.55,0.55,1);
+    -webkit-animation-fill-mode: forwards;
+}
+@-webkit-keyframes slideInRight {
+    0% {} 100% {
+        -webkit-transform: translate3d(100%, 0, 0);
+    }
+}
