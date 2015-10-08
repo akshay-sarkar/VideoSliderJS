@@ -7,14 +7,15 @@
 </head>
 
 <body>
-    <div class="videoSlider screenSize">
+    <div class="screenSize" id="videoSlider">
+        <!-- change id name and passit as parameter -->
         <ul id="carousel">
             <li class="active">
-                <video controls src="res/videos/videoplayback1.mp4">
+                <video controls src="res/videos/videoplayback1.mp4" preload="auto">
                 </video>
             </li>
             <li>
-                <video controls src= "res/videos/videoplayback2.mp4">
+                <video controls src= "res/videos/videoplayback2.mp4" preload="auto">
                 </video>
             </li>
     	   <li>
@@ -25,13 +26,15 @@
         <div  onclick="moveNext()" class="nextIcon arrow"></div>
     </div>
 </body>
-<script src="js/videoSlider.js"></script>
+<script src="js/videoSlider.min.js"></script>
 <script>
     /* videoSlider Init*/
     var slider = new VideoSlider();
     slider.init({
         interval: 4000,
-        animateTime: 1200
+        animateTime: 1200,
+        carousel : 'carousel', // passing elementId 'carousel' by default , change it if you wish in value
+        videoSlider : 'videoSlider' //paasing elementId 'VideoSlider' by default , change it if you wish in value
     });
     function movePrev(){
         slider.movePrev();

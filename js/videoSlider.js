@@ -1,59 +1,26 @@
-/**
- * Example
- * 'VideoSlider' library is built inside in this application will help you add more images and videos
- *  to loop as well as gives you some configuration changes.
- * 
- * // TO ADD IMAGES and VIDEOS IN SLIDER
- * For adding images and videos in slider,
- * Create an LI element and then place your IMG or VIDEO tag inside it and, put it inside UL element ('carousel')
- * 
- * // TO CONFIGURE VideoSlider
- * var VideoSlider = new VideoSlider();
- * s.init({
- *     interval: 4000,               // Set VideoSlider Interval 4000 - 4 sec.
- *     autoPlayMediaContent: true,   // true will make video runs automatically on coming in front, FALSE will not play video.
- *     moveItemsLeft:true,           // true will move VideoSlider towards left, FALSE will move VideoSlider towards right.
- *     animateTime : 1000,           // Set the Animation tranisition speed (set in css as well)
- *     autoPlaySlide: true           // false will make VideoSlider only on button click
- * });
- */
 var VideoSlider = function () {
-    this.interval =  3000;
-    this.animateTime = 1000;
-    this.autoPlaySlide = true;
-    this.autoPlayMediaContent = true;
-    this.moveItemsLeft = true;
+    this._sliderInterval = null;
+    this._animFlag = true;
+    this._videoIndex = [];
+    this._isVideoPlaying = false;
+    this._currentItem = 1;
+    this._countAnimationEnd = 0;
     this.carousel = document.getElementById('carousel');
     this.carouselItems = this.carousel.children.length;
     this.carouselChilds = [].slice.call(this.carousel.children);
-    this.videoSlider = document.getElementsByClassName('videoSlider')[0];
+    this.videoSlider = document.getElementById('videoSlider');
     this.height = this.videoSlider.getClientRects()[0].height;
     this.width =  this.videoSlider.getClientRects()[0].width;
-    this.sliderInterval = null;
-    this.animFlag = true;
-    this.videoIndex = [];
-    this.isVideoPlaying = false;
-    this.currentItem = 1;
-    this.countAnimationEnd = 0;
 };
 /* intialize VideoSlider with User Defined Object or continue with default */
 VideoSlider.prototype.init = function (obj) {
     if (obj) {
-        if (obj.interval) {
-            this.interval = obj.interval;
-        }
-        if (obj.autoPlaySlide) {
-            this.autoPlaySlide = obj.autoPlaySlide;
-        }
-        if (obj.animateTime) {
-            this.animateTime = obj.animateTime;
-        }
-        if (obj.autoPlayMediaContent) {
-            this.autoPlayMediaContent = obj.autoPlayMediaContent;
-        }
-        if (obj.moveItemsLeft) {
-            this.moveItemsLeft = obj.moveItemsLeft;
-        }
+        
+        obj.interval ? (this.interval = obj.interval) : (this.interval = 3000);
+        obj.autoPlaySlide ? ( this.autoPlaySlide = obj.autoPlaySlide) : ( this.autoPlaySlide = true );
+        obj.animateTime ? ( this.animateTime = obj.animateTime ) : ( this.animateTime = 1000);
+        obj.autoPlayMediaContent ? (this.autoPlayMediaContent = obj.autoPlayMediaContent) : (this.autoPlayMediaContent = true);
+        obj.moveItemsLeft ? (this.moveItemsLeft = obj.moveItemsLeft) : (this.moveItemsLeft = true);
         if (obj.carousel) {
             this.carousel = document.getElementById(obj.carousel);
             this.carouselItems = this.carousel.children.length;
@@ -75,7 +42,7 @@ VideoSlider.prototype.checkVideoIndex = function () {
         p = ele.children.item();
         if (p.tagName === 'VIDEO') {
             // pushing in indexes in array
-            this.videoIndex.push((i + 1));
+            this._videoIndex.push((i + 1));
             // Register Video End Event
             p.addEventListener('ended', this.endVideoTrigger());
             p.addEventListener('play', this.playVideoTrigger());
@@ -113,13 +80,13 @@ VideoSlider.prototype.moveLastChildFront = function () {
 };
 /* Clear VideoSlider Interval */
 VideoSlider.prototype.clearSliderInterval = function () {
-    clearInterval(this.sliderInterval);
+    clearInterval(this._sliderInterval);
 };
 /* Restart VideoSlider with paramter to stat immediately : moveRequire */
 VideoSlider.prototype.setSliderInterval = function (moveRequire) {
     var that = this;
     
-    this.sliderInterval = setInterval(function () {
+    this._sliderInterval = setInterval(function () {
         that.slider(that.moveItemsLeft);
     }, this.interval);
 
@@ -137,7 +104,7 @@ VideoSlider.prototype.endVideoTrigger = function () {
     var that = this;
     return function (e) {
         e.currentTarget.currentTime = 0.0;
-        that.isVideoPlaying = false;
+        that._isVideoPlaying = false;
         if (that.autoPlaySlide) {
             //that.setSliderInterval(true);
             that.clearSliderInterval();
@@ -148,13 +115,13 @@ VideoSlider.prototype.endVideoTrigger = function () {
 VideoSlider.prototype.pauseVideoTrigger = function () {
     var that = this;
     return function () {
-        that.isVideoPlaying = false;
+        that._isVideoPlaying = false;
     };
 };
 VideoSlider.prototype.playVideoTrigger = function () {
     var that = this;
     return function () {
-        that.isVideoPlaying = true;
+        that._isVideoPlaying = true;
         that.playVideo();
     };
 };
@@ -175,7 +142,7 @@ VideoSlider.prototype.animationEnd = function(e) {
     if (that.moveItemsLeft) {
 
         if (e.classList.length === 2) {
-            ++that.countAnimationEnd;
+            ++that._countAnimationEnd;
             // array change
             var ele = that.carouselChilds.shift(); // removed 1st element
             that.carouselChilds.push(ele); // pushing it in last in array
@@ -184,12 +151,12 @@ VideoSlider.prototype.animationEnd = function(e) {
 
             e.classList.remove('animateSlideIn');
         } else {
-            ++that.countAnimationEnd;
+            ++that._countAnimationEnd;
             e.classList.remove('animateSlideIn');
         }
     } else {
         if (e.classList.length === 2) {
-            ++that.countAnimationEnd;
+            ++that._countAnimationEnd;
             // array change
             var ele = that.carouselChilds.pop(); // removed last element
             that.carouselChilds.unshift(ele); // pushing it in front of array
@@ -198,17 +165,17 @@ VideoSlider.prototype.animationEnd = function(e) {
 
             e.classList.remove('animateSlideInRight');
         } else {
-            ++that.countAnimationEnd;
+            ++that._countAnimationEnd;
             e.classList.remove('animateSlideInRight');
         }
     }
 
     /* Both Elements Animation Ended*/
-    if (that.countAnimationEnd >= 2) {
-        that.countAnimationEnd = 0;
-        this.animFlag = true;
+    if (that._countAnimationEnd >= 2) {
+        that._countAnimationEnd = 0;
+        this._animFlag = true;
         // Checking for Video To Play by matching with the CurrentIndex
-        if ((that.videoIndex.indexOf(that.currentItem) >= 0) && that.autoPlayMediaContent) {
+        if ((that._videoIndex.indexOf(that._currentItem) >= 0) && that.autoPlayMediaContent) {
             that.playVideo();
         }
     }
@@ -235,10 +202,10 @@ VideoSlider.prototype.moveNext = function () {
     child_v.classList.add('animateSlideIn');
     child_v.classList.add('active');
     
-    if (this.carouselItems > that.currentItem) {
-        ++that.currentItem;
+    if (this.carouselItems > that._currentItem) {
+        ++that._currentItem;
     } else {
-        that.currentItem = 1;
+        that._currentItem = 1;
     }
     setTimeout(function () {
         that.animationEnd(child_v);
@@ -267,10 +234,10 @@ VideoSlider.prototype.movePrev = function () {
     child_v.classList.add('active');
 
     // Setting Current Index
-    if (that.currentItem > 1) {
-        --that.currentItem;
+    if (that._currentItem > 1) {
+        --that._currentItem;
     } else {
-        that.currentItem = this.carouselItems;
+        that._currentItem = this.carouselItems;
     }
     setTimeout(function () {
         that.animationEnd(child_v);
@@ -299,10 +266,10 @@ VideoSlider.prototype.resetHeightWidth = function () {
 };
 VideoSlider.prototype.startSlider = function () {
     var that = this;
-    if (that.videoIndex.indexOf(that.currentItem) !== -1 && that.autoPlayMediaContent) {
+    if (that._videoIndex.indexOf(that._currentItem) !== -1 && that.autoPlayMediaContent) {
         that.playVideo();
     } else {
-        this.sliderInterval = setInterval(function () {
+        this._sliderInterval = setInterval(function () {
             if (that.autoPlaySlide) {
                 that.slider(that.moveItemsLeft);
             }
@@ -311,13 +278,13 @@ VideoSlider.prototype.startSlider = function () {
 };
 VideoSlider.prototype.slider = function (move) {
     if (move) {
-        if (this.animFlag) {
-            this.animFlag = false;
+        if (this._animFlag) {
+            this._animFlag = false;
             this.moveNext();
         }
     } else {
-        if (this.animFlag) {
-            this.animFlag = false;
+        if (this._animFlag) {
+            this._animFlag = false;
             this.movePrev();
         }
     }

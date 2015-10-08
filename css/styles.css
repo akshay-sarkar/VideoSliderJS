@@ -7,12 +7,16 @@ video {
   width: 100%    !important;
   height: auto   !important;
 }
-.screenSize, img{
+img {
+    max-width: 100%;
+    height: auto;
+}
+.screenSize{
     height: 540px;
     max-width: 960px;
     width: 100%;
 }
-.videoSlider {
+#videoSlider {
     overflow: hidden;
     position: relative;
 }
