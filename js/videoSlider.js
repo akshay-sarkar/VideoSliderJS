@@ -39,7 +39,7 @@ VideoSlider.prototype.checkVideoIndex = function () {
     var ele, i, p;
     for (i = 0; i < this.carouselItems; i++) {
         ele = this.carouselChilds[i];
-        p = ele.children.item();
+        p = ele.children.item(0);
         if (p.tagName === 'VIDEO') {
             // pushing in indexes in array
             this._videoIndex.push((i + 1));

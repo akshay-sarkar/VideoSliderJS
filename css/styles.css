@@ -63,3 +63,9 @@ ul li { float:left; }
         -webkit-transform: translate3d(100%, 0, 0);
     }
 }
+
+
+/* Hiding FullScreen Button */
+video::-webkit-media-controls-fullscreen-button{
+    display: none;
+}
