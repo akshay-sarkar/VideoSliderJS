@@ -1,3 +1,4 @@
+
 # VideoSliderJS
 Plugin to play video/audio and images in a slider with configuration 
 
@@ -17,3 +18,11 @@ s.init({
 ```
 ###Note:
 Yet to audio compatability.
+
+#Snapshots:
+<img src="https://image.ibb.co/eB0AFF/Image_Slider.png" alt="Image_Slider" border="0">
+<img src="https://image.ibb.co/f0Tmpa/Video_Play.png" alt="Video_Play" border="0">
+
+#Sliding Transition
+
+<img src="https://image.ibb.co/n3J82v/Sliding.png" alt="Sliding" border="0">
