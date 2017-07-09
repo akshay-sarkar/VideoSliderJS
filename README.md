@@ -20,9 +20,10 @@ s.init({
 Yet to audio compatability.
 
 #Snapshots:
+#Image
 <img src="https://image.ibb.co/eB0AFF/Image_Slider.png" alt="Image_Slider" border="0">
-<img src="https://image.ibb.co/f0Tmpa/Video_Play.png" alt="Video_Play" border="0">
+#Video
+<img src="https://image.ibb.co/mn0uaF/Video_Play.png" alt="Video_Play" border="0">
 
 #Sliding Transition
-
 <img src="https://image.ibb.co/n3J82v/Sliding.png" alt="Sliding" border="0">
